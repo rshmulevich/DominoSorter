@@ -12,127 +12,71 @@ namespace DominoSorting
 
         public Domino(ref JInput myheap)
         {
-            //Node dummy = new Node();
+           
             Top = new Node();
-            //Top.LeftVar.Add(dummy);
-            //Top.RightVar.Add(dummy);
-            
-            //foreach (JPiece piece in myheap.pieces)
-            //{
-            //    Node node = new Node();
-                Top.leftValue = myheap.pieces[0].left;
-                Top.rightValue = myheap.pieces[0].right;
-                myheap.pieces[0].usedFlag = true;
-                //Top.LeftVar.Add(node);
-                Build(ref Top, ref myheap);
-                myheap.pieces[0].usedFlag = false;
-            //}
-            //Build(ref Top, ref myheap);
-            
-            //Build();
+            //initializing top pieces
+            foreach (JPiece piece in myheap.pieces)
+            {
+                Node node = new Node();
+                node.leftValue = piece.left;
+                node.rightValue = piece.right;
+                piece.usedFlag = true;
+                Top.LeftVar.Add(node);
+                Build(ref node, ref myheap);
+                piece.usedFlag = false;
+            }
         }
 
         private void Build(ref Node myNode, ref JInput myheap)
         {
             foreach(JPiece piece in myheap.pieces)
             {
-                if (!piece.usedFlag)//&& ((!myNode.LeftVar.Any())||(!myNode.RightVar.Any())))
+                if (!piece.usedFlag)//check if the piece already in use
                 {
 
                     if (myNode.leftValue == piece.right)
                     {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.left;
-                        newNode.rightValue = piece.right;
-                        myNode.LeftVar.Add(newNode);
                         piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
+                        addPiece(ref myNode, piece.left, piece.right, true, ref myheap);
                         piece.usedFlag = false;
                     }
                     else if (myNode.leftValue == piece.left)
                     {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.right;
-                        newNode.rightValue = piece.left;
-                        myNode.LeftVar.Add(newNode);
                         piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
+                        addPiece(ref myNode, piece.right, piece.left, true, ref myheap);
                         piece.usedFlag = false;
                     }
                     if (myNode.rightValue == piece.left)
                     {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.left;
-                        newNode.rightValue = piece.right;
-                        myNode.RightVar.Add(newNode);
                         piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
+                        addPiece(ref myNode, piece.left, piece.right, false, ref myheap);
                         piece.usedFlag = false;
                     }
                     else if (myNode.rightValue == piece.right)
                     {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.right;
-                        newNode.rightValue = piece.left;
-                        myNode.RightVar.Add(newNode);
                         piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
+                        addPiece(ref myNode, piece.right, piece.left, false, ref myheap);
                         piece.usedFlag = false;
                     }
-
-
-
-                    if (myNode.leftValue == piece.right)
-                    {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.left;
-                        newNode.rightValue = piece.right;
-                        myNode.LeftVar.Add(newNode);
-                        piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
-                        piece.usedFlag = false;
-                    }
-                    else if (myNode.leftValue == piece.left)
-                    {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.right;
-                        newNode.rightValue = piece.left;
-                        myNode.LeftVar.Add(newNode);
-                        piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
-                        piece.usedFlag = false;
-                    }
-                    if (myNode.rightValue == piece.left)
-                    {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.left;
-                        newNode.rightValue = piece.right;
-                        myNode.RightVar.Add(newNode);
-                        piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
-                        piece.usedFlag = false;
-                    }
-                    else if (myNode.rightValue == piece.right)
-                    {
-                        Node newNode = new Node();
-                        newNode.leftValue = piece.right;
-                        newNode.rightValue = piece.left;
-                        myNode.RightVar.Add(newNode);
-                        piece.usedFlag = true;
-                        Build(ref newNode, ref myheap);
-                        piece.usedFlag = false;
-                    }
-
-
                 }
 
             }
             
         }
-        private void addRec(ref Node myNode, ref JPiece heap)
+
+        //adding piece to the tree
+        private void addPiece(ref Node myNode, int left, int right, bool LeftToRight, ref JInput myheap)
         {
-            //foreach ()
-            //if (heap)
+            Node newNode = new Node();
+            newNode.leftValue = left;
+            newNode.rightValue = right;
+            if (LeftToRight)
+                myNode.LeftVar.Add(newNode);
+            else
+                myNode.RightVar.Add(newNode);
+
+            Build(ref newNode, ref myheap);
+            
         }
     }
 }
