@@ -32,7 +32,11 @@ namespace DominoSorting
             }
 
             var heap = JsonConvert.DeserializeObject<JInput>(_text);//reading the json data string
-            Domino myDomino = new Domino(ref heap); 
+            Domino myDomino = new Domino(ref heap);
+
+            myDomino.Print();
+            Console.ReadLine();
+
         }
     }
 }

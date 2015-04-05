@@ -78,5 +78,34 @@ namespace DominoSorting
             Build(ref newNode, ref myheap);
             
         }
+
+        public void Print()
+        {
+            recPrint(Top);
+        }
+
+        private void recPrint(Node node)
+        {
+            if (node != null)
+            {
+                foreach (Node myNode in node.LeftVar)
+                {
+                    recPrint(myNode);
+                }
+            }
+            if ((node.leftValue != 0) || (node.rightValue != 0))
+                Console.Write(string.Format(" {0}:{1}", node.leftValue, node.rightValue));
+            if (node != null)
+            {
+                foreach (Node myNode in node.RightVar)
+                {
+                    recPrint(myNode);
+                }
+            }
+            if ((node.leftValue != 0) || (node.rightValue != 0))
+                    Console.Write(string.Format(" {1}:{0}", node.leftValue, node.rightValue));
+            Console.WriteLine("");
+
+        }
     }
 }
