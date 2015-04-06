@@ -16,6 +16,7 @@ namespace DominoSorting
         static void Main(string[] args)
         {
 
+            # region Parse Json file
             string _text;
 
             IConfigurator Cnfg = new FileConfigurator("conf.txt");
@@ -32,7 +33,11 @@ namespace DominoSorting
             }
 
             var heap = JsonConvert.DeserializeObject<JInput>(_text);//reading the json data string
-            Domino myDomino = new Domino(ref heap);
+
+            # endregion Parse Json file
+
+
+            Domino myDomino = new Domino(heap);
 
             myDomino.Print();
             Console.ReadLine();

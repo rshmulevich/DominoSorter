@@ -10,16 +10,17 @@ namespace DominoSorting
     {
         private Node Top;
 
-        public Domino(ref JInput myheap)
+        public Domino(JInput myheap)
         {
-           
-            Top = new Node();
+            List<string> dominoStrings = new List<string>();
+            string tempString;
+
+            //Top = new Node(0,0);
             //initializing top pieces
             foreach (JPiece piece in myheap.pieces)
             {
-                Node node = new Node();
-                node.leftValue = piece.left;
-                node.rightValue = piece.right;
+                Node node = new Node(piece.left, piece.right);
+
                 piece.usedFlag = true;
                 Top.LeftVar.Add(node);
                 Build(ref node, ref myheap);

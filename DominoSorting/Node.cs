@@ -8,17 +8,15 @@ namespace DominoSorting
 {
     public class Node
     {
-        public int leftValue;
-        public int rightValue;
-        public List<Node> LeftVar;
-        public List<Node> RightVar;
+        public int leftValue{get; private set;}
+        public int rightValue { get; private set; }
+        public List<Node> Variants { get; private set; }
 
-        public Node()
+        public Node(int left, int right)
         {
-
-            LeftVar = new List<Node>();
-            RightVar = new List<Node>();
-
+            leftValue = left;
+            rightValue = right;
+            Variants = new List<Node>();
         }
     }
 }
