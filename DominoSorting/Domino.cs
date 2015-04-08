@@ -19,94 +19,72 @@ namespace DominoSorting
             //initializing top pieces
             foreach (JPiece piece in myheap.pieces)
             {
-                Node node = new Node(piece.left, piece.right);
+                //Node node = new Node(piece.left, piece.right);
+                tempString = string.Format("{0}:{1}",piece.left,piece.right);
+                //piece.usedFlag = true;
+                //dominoStrings.Add( tempString);
+                dominoStrings = dominoStrings.Concat(FindStrings(tempString, myheap, piece.right)).ToList();
+                tempString = string.Format("{0}:{1}", piece.right, piece.left);
+                //dominoStrings.Add( tempString);
+                dominoStrings = dominoStrings.Concat(FindStrings(tempString, myheap, piece.left)).ToList();
+                //piece.usedFlag = false;
 
-                piece.usedFlag = true;
-                Top.LeftVar.Add(node);
-                Build(ref node, ref myheap);
-                piece.usedFlag = false;
-            }
-        }
-
-        private void Build(ref Node myNode, ref JInput myheap)
-        {
-            foreach(JPiece piece in myheap.pieces)
-            {
-                if (!piece.usedFlag)//check if the piece already in use
-                {
-
-                    if (myNode.leftValue == piece.right)
-                    {
-                        piece.usedFlag = true;
-                        addPiece(ref myNode, piece.left, piece.right, true, ref myheap);
-                        piece.usedFlag = false;
-                    }
-                    else if (myNode.leftValue == piece.left)
-                    {
-                        piece.usedFlag = true;
-                        addPiece(ref myNode, piece.right, piece.left, true, ref myheap);
-                        piece.usedFlag = false;
-                    }
-                    if (myNode.rightValue == piece.left)
-                    {
-                        piece.usedFlag = true;
-                        addPiece(ref myNode, piece.left, piece.right, false, ref myheap);
-                        piece.usedFlag = false;
-                    }
-                    else if (myNode.rightValue == piece.right)
-                    {
-                        piece.usedFlag = true;
-                        addPiece(ref myNode, piece.right, piece.left, false, ref myheap);
-                        piece.usedFlag = false;
-                    }
-                }
+                
 
             }
-            
-        }
 
-        //adding piece to the tree
-        private void addPiece(ref Node myNode, int left, int right, bool LeftToRight, ref JInput myheap)
-        {
-            Node newNode = new Node();
-            newNode.leftValue = left;
-            newNode.rightValue = right;
-            if (LeftToRight)
-                myNode.LeftVar.Add(newNode);
-            else
-                myNode.RightVar.Add(newNode);
-
-            Build(ref newNode, ref myheap);
-            
-        }
-
-        public void Print()
-        {
-            recPrint(Top);
-        }
-
-        private void recPrint(Node node)
-        {
-            if (node != null)
+            dominoStrings = dominoStrings.Distinct().ToList();
+            foreach (string str in dominoStrings)
             {
-                foreach (Node myNode in node.LeftVar)
+                if (str.Length > 3)
                 {
-                    recPrint(myNode);
+                    Console.WriteLine(str);
                 }
             }
-            if ((node.leftValue != 0) || (node.rightValue != 0))
-                Console.Write(string.Format(" {0}:{1}", node.leftValue, node.rightValue));
-            if (node != null)
-            {
-                foreach (Node myNode in node.RightVar)
-                {
-                    recPrint(myNode);
-                }
-            }
-            if ((node.leftValue != 0) || (node.rightValue != 0))
-                    Console.Write(string.Format(" {1}:{0}", node.leftValue, node.rightValue));
-            Console.WriteLine("");
+
+            Console.ReadLine();
 
         }
+
+
+        private List<string> FindStrings(string newString, JInput myHeap, int value)
+        {
+            List<string> newList = new List<string>();
+            foreach (JPiece piece in myHeap.pieces)
+            {
+
+                int indx1 = newString.IndexOf(string.Format("{0}:{1}", piece.left, piece.right));
+                int indx2 = newString.IndexOf(string.Format("{1}:{0}", piece.left, piece.right));
+
+                if ((indx1 == -1) && (indx2 == -1))
+                {
+                    if (value == piece.left)
+                    {
+                        newString = newString + string.Format("{0}:{1}", piece.left, piece.right);
+                        //piece.usedFlag = true;
+                        value = piece.right;
+                        newList = newList.Concat(FindStrings(newString, myHeap, value)).ToList();
+                    }
+                    else if (value == piece.right)
+                    {
+                        newString = newString + string.Format("{0}:{1}", piece.right, piece.left);
+                        //piece.usedFlag = true;
+                        value = piece.left;
+                        newList = newList.Concat(FindStrings(newString, myHeap, value)).ToList();
+                    }
+                    newList.Add(newString);
+                }
+                
+            }
+            //foreach (JPiece piece in myHeap.pieces)
+            //    if (!(piece.right == value) && !(piece.left == value))
+            //        piece.usedFlag = false;
+            //    else
+            //        piece.usedFlag = true;
+
+            return newList;
+
+        }
+
     }
 }

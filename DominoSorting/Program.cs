@@ -39,8 +39,7 @@ namespace DominoSorting
 
             Domino myDomino = new Domino(heap);
 
-            myDomino.Print();
-            Console.ReadLine();
+            
 
         }
     }
