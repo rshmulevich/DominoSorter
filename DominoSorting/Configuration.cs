@@ -11,19 +11,12 @@ namespace DominoSorting
 {
     public class Configuration
     {
-        
-
-       
         public string Path  { get; private set; }
         
         public Configuration(string path)
         {
-            
             Path = path;
         }
-
-       
-
     }
 
     

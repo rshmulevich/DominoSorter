@@ -12,14 +12,14 @@ namespace DominoSorting
 {
     class Program
     {
-
         static void Main(string[] args)
         {
-
             # region Parse Json file
             string _text;
+            IConfigurator Cnfg;
 
-            IConfigurator Cnfg = new FileConfigurator("conf.txt");
+            Cnfg = new FileConfigurator("conf.txt");
+
             var jsonFile = Cnfg.Read();
 
             try
@@ -28,7 +28,7 @@ namespace DominoSorting
             }
             catch (Exception e)
             {
-                Console.WriteLine( "Can't read file, error:" + e.Message);
+                Console.WriteLine("Can't read file, error:" + e.Message);
                 return;
             }
 
@@ -36,10 +36,11 @@ namespace DominoSorting
 
             # endregion Parse Json file
 
-
+            //Printing the Dominos
             Domino myDomino = new Domino(heap);
 
-            
+            JPiece pi = new JPiece();
+            pi.left = 0;
 
         }
     }

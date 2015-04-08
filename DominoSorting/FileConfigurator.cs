@@ -36,6 +36,12 @@ namespace DominoSorting
 
             Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
+            if (confFileLines.Length < 1)
+            {
+
+                throw new ApplicationException("File is empty");
+            }
+
             foreach (string line in confFileLines)
             {
                 string key;
@@ -44,7 +50,7 @@ namespace DominoSorting
 
                 lineParts = line.Split('=');
 
-                if (lineParts.Length < 2)
+                if (!line.Contains("="))
                 {
                     continue;
                     //throw new ApplicationException("wrong input format");
@@ -62,11 +68,9 @@ namespace DominoSorting
 
             }
 
-            Configuration cfg = new Configuration(
-                
-                dictionary["Path"]);
+            Configuration confg = new Configuration(dictionary["Path"]);
 
-            return cfg;
+            return confg;
         }
 
         
