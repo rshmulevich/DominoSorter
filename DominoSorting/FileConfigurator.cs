@@ -12,6 +12,7 @@ namespace DominoSorting
 
     public class FileConfigurator:IConfigurator
     {
+        // TODO: What is this? remaining of tree project? 
         private const int POS_ROOT       = 0;
         private const int POS_TREE_SIZE  = 1;
         private const int POS_PATH       = 2;
