@@ -25,6 +25,25 @@ namespace DominoSorting
         {
             return string.Format("{0}:{1}",left, right);
         }
+        public override bool Equals(object obj)
+        {
+            // If parameter is null return false.
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // If parameter cannot be cast to JPiece return false.
+            JPiece p = obj as JPiece;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return ((left == p.left) && (right == p.right)) || ((left == p.right) && (right == p.left));
+
+        }
     }
 
 }
