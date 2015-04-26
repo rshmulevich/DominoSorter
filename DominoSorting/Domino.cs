@@ -11,6 +11,8 @@ namespace DominoSorting
         private JInput _input;
         private List<Combination> _result;
 
+        int debugCntr=0;
+
         public Domino(JInput myDices)
         {
             
@@ -19,12 +21,14 @@ namespace DominoSorting
 
             foreach (JPiece piece in _input.pieces)
             {
+                debugCntr = 0;
                 Combination combination = new Combination();
-                combination.Add(piece);
-                resultCombinations.AddRange(FindCombinations(combination));
-                combination = new Combination();
-                combination.Add(piece.Reverse());
-                resultCombinations.AddRange(FindCombinations(combination));
+                //combination.Add(piece);
+                resultCombinations.AddRange(FindCombinations(combination,piece));
+                debugCntr = 0;
+               combination = new Combination();
+                //combination.Add(piece.Reverse());
+                resultCombinations.AddRange(FindCombinations(combination, piece.Reverse()));
             }
 
             //remove duplicates
@@ -65,31 +69,33 @@ namespace DominoSorting
 
         }
 
-        private List<Combination> FindCombinations( Combination currentCombination)
+        private List<Combination> FindCombinations( Combination currentCombination, JPiece pieceToAdd)
         {
+            debugCntr++;//debug
+
             List<Combination> resultList = new List<Combination>();
+            currentCombination.Add(pieceToAdd);
             resultList.Add(currentCombination);
+            Console.WriteLine(string.Format("level:{0} string:{1}", debugCntr, currentCombination.ToString()));//debug
             foreach (JPiece piece in _input.pieces)
             {
                 if(!currentCombination.Any(p=>piece.Equals(p)))
                 {
-
                     if (currentCombination.Last().right == piece.left)
                     {
-                        currentCombination.Add(piece);
-                        resultList.AddRange(FindCombinations(currentCombination));
+                        //currentCombination.Add(piece);
+                        resultList.AddRange(FindCombinations(currentCombination,piece));
                     }
                     if (currentCombination.Last().right == piece.right)
                     {
-                        currentCombination.Add(piece.Reverse());
-                        resultList.AddRange(FindCombinations(currentCombination));
+                        //currentCombination.Add(piece.Reverse());
+                        resultList.AddRange(FindCombinations(currentCombination,piece.Reverse()));
                     }
-                    //resultList.Add(currentCombination);
+                   
+                    resultList.Add(currentCombination);
                 }
-
             }
             return resultList;
-
         }
 
     }
