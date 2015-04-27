@@ -37,6 +37,7 @@ namespace DominoSorting
 
             //Printing the Dominos
             Domino myDomino = new Domino(collectionOfDices);
+            myDomino.Sort();
             myDomino.Print();
             Console.ReadLine();
         }

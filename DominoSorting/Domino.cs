@@ -10,31 +10,12 @@ namespace DominoSorting
     {
         private JInput _input;
         private List<Combination> _result;
-
+        private List<Combination> _resultCombinations = new List<Combination>();
         int debugCntr=0;
 
         public Domino(JInput myDices)
         {
-            
             _input = myDices;
-            var resultCombinations = new List<Combination>();
-
-            foreach (JPiece piece in _input.pieces)
-            {
-                debugCntr = 0;
-                Combination combination = new Combination();
-                //combination.Add(piece);
-                resultCombinations.AddRange(FindCombinations(combination,piece));
-                debugCntr = 0;
-               combination = new Combination();
-                //combination.Add(piece.Reverse());
-                resultCombinations.AddRange(FindCombinations(combination, piece.Reverse()));
-            }
-
-            //remove duplicates
-            _result = RemoveDuplicates(resultCombinations);
-            //remove singles
-            _result = RemoveSingles(_result);
         }
         
         public void Print()
@@ -55,6 +36,7 @@ namespace DominoSorting
             return resultList;
             
         }
+
         private List<Combination> RemoveSingles(List<Combination> inputList)
         {
             List<Combination> resultList = new List<Combination>();
@@ -69,12 +51,12 @@ namespace DominoSorting
 
         }
 
-        private List<Combination> FindCombinations( Combination currentCombination, JPiece pieceToAdd)
+        private List<Combination> FindCombinations( Combination currentCombination)//, JPiece pieceToAdd)
         {
             debugCntr++;//debug
 
             List<Combination> resultList = new List<Combination>();
-            currentCombination.Add(pieceToAdd);
+           // currentCombination.Add(pieceToAdd);
             resultList.Add(currentCombination);
             Console.WriteLine(string.Format("level:{0} string:{1}", debugCntr, currentCombination.ToString()));//debug
             foreach (JPiece piece in _input.pieces)
@@ -83,19 +65,39 @@ namespace DominoSorting
                 {
                     if (currentCombination.Last().right == piece.left)
                     {
-                        //currentCombination.Add(piece);
-                        resultList.AddRange(FindCombinations(currentCombination,piece));
+                        currentCombination.Add(piece);
+                        resultList.AddRange(FindCombinations(currentCombination));//,piece));
                     }
                     if (currentCombination.Last().right == piece.right)
                     {
-                        //currentCombination.Add(piece.Reverse());
-                        resultList.AddRange(FindCombinations(currentCombination,piece.Reverse()));
+                        currentCombination.Add(piece.Reverse());
+                        resultList.AddRange(FindCombinations(currentCombination));//,piece.Reverse()));
                     }
                    
                     resultList.Add(currentCombination);
                 }
             }
             return resultList;
+        }
+
+        public void Sort()
+        {
+            foreach (JPiece piece in _input.pieces)
+            {
+                debugCntr = 0;
+                Combination combination = new Combination();
+                combination.Add(piece);
+                _resultCombinations.AddRange(FindCombinations(new Combination() { piece }));//,piece));
+                debugCntr = 0;
+                combination = new Combination();
+                //combination.Add(piece.Reverse());
+                _resultCombinations.AddRange(FindCombinations(new Combination() { piece.Reverse() }));
+            }
+
+            //remove duplicates
+            _result = RemoveDuplicates(_resultCombinations);
+            //remove singles
+            _result = RemoveSingles(_result);
         }
 
     }
