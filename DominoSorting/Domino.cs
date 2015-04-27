@@ -57,18 +57,19 @@ namespace DominoSorting
 
             List<Combination> resultList = new List<Combination>();
            // currentCombination.Add(pieceToAdd);
-            resultList.Add(currentCombination);
+           // resultList.Add(currentCombination);
             Console.WriteLine(string.Format("level:{0} string:{1}", debugCntr, currentCombination.ToString()));//debug
             foreach (JPiece piece in _input.pieces)
             {
-                if(!currentCombination.Any(p=>piece.Equals(p)))
+                if (!currentCombination.Any(p => piece.Equals(p) || piece.Equals(p.Reverse())))
                 {
-                    if (currentCombination.Last().right == piece.left)
+                    var last = currentCombination.Last();
+                    if (last.right == piece.left)
                     {
                         currentCombination.Add(piece);
                         resultList.AddRange(FindCombinations(currentCombination));//,piece));
                     }
-                    if (currentCombination.Last().right == piece.right)
+                    if (last.right == piece.right)
                     {
                         currentCombination.Add(piece.Reverse());
                         resultList.AddRange(FindCombinations(currentCombination));//,piece.Reverse()));
@@ -80,16 +81,16 @@ namespace DominoSorting
             return resultList;
         }
 
-        public void Sort()
+        public void BuildCombinations()
         {
             foreach (JPiece piece in _input.pieces)
             {
                 debugCntr = 0;
-                Combination combination = new Combination();
-                combination.Add(piece);
+                //Combination combination = new Combination();
+                //combination.Add(piece);
                 _resultCombinations.AddRange(FindCombinations(new Combination() { piece }));//,piece));
                 debugCntr = 0;
-                combination = new Combination();
+                //combination = new Combination();
                 //combination.Add(piece.Reverse());
                 _resultCombinations.AddRange(FindCombinations(new Combination() { piece.Reverse() }));
             }
